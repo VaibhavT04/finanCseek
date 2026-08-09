@@ -83,7 +83,7 @@ function App() {
   const pathname = usePathname() || '/'
   const parts = pathname.split('/').filter(Boolean)
   const service = parts.length >= 3 ? getService(parts[2]) : null
-  const category = parts[1] === 'services' ? getCategory(parts[2] || '') : null
+  const category = parts[0] === 'services' ? getCategory(parts[1] || '') : null
   if (parts[0] === 'services' && service && category) return <ServicePage service={service} category={category} />
   if (parts[0] === 'services' && category) return <CategoryPage category={category} />
   return <HomePage />
