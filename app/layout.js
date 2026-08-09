@@ -2,8 +2,8 @@ import './globals.css'
 import { Providers } from './providers'
 
 export const metadata = {
-  title: 'Northstar Financial | Clear advice for important decisions',
-  description: 'A professional financial consultancy website architecture with structured service pages.',
+  title: 'finanCseek | Seek clarity. Find growth.',
+  description: 'Professional financial guidance for individuals and businesses.',
 }
 
 export default function RootLayout({ children }) {
