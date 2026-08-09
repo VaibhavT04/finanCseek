@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --background: 210 40% 98%; --foreground: 215 28% 17%; --card: 0 0% 100%; --card-foreground: 215 28% 17%; --primary: 215 69% 14%; --primary-foreground: 0 0% 100%; --secondary: 210 40% 96%; --secondary-foreground: 215 69% 14%; --muted: 210 40% 96%; --muted-foreground: 215 16% 47%; --border: 214 32% 91%; --input: 214 32% 91%; --ring: 188 77% 45%; --radius: .5rem; }
+* { @apply border-border; }
+html { scroll-behavior: smooth; }
+body { @apply bg-background text-foreground; margin: 0; font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+button, a { transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
