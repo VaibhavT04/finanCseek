@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { ArrowRight, BarChart3, BookOpen, BriefcaseBusiness, Check, ChevronDown, Clock3, FileText, Landmark, Menu, MessageCircle, Phone, Mail, ShieldCheck, Sparkles, Target, TrendingUp, X } from 'lucide-react'
+import { ArrowRight, BarChart3, BookOpen, BriefcaseBusiness, Check, ChevronDown, Clock3, FileText, Landmark, Menu, MessageCircle, Phone, Mail, ShieldCheck, Sparkles, Target, TrendingUp, X, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 
 const CONTACTS = {
   whatsapp: 'https://wa.me/0000000000',
@@ -58,19 +58,206 @@ function Footer() { return <footer className="bg-[#0B1F3A] py-12 text-white"><di
 
 function HomePage() {
   const [expanded, setExpanded] = useState(null)
-  return <><Header /><main><section className="relative overflow-hidden bg-[#0B1F3A] text-white"><div className="absolute -right-20 -top-24 h-80 w-80 rounded-full border border-[#19B6C9]/20" /><div className="container grid min-h-[570px] items-center gap-14 py-20 lg:grid-cols-[1.05fr_.95fr]"><div><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C79A3B]/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#C79A3B]"><span className="h-2 w-2 rounded-full bg-[#19B6C9]" /> Financial clarity, made practical</div><h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">Professional guidance for your next financial decision.</h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">A clear, considered approach to personal finance, business advisory, accounting, tax, audit, investment, and lending support.</p><div className="mt-9 flex flex-wrap gap-4"><a href="#contact" className="rounded-md bg-[#C79A3B] px-6 py-3.5 font-semibold text-[#0B1F3A] hover:bg-[#19B6C9]">Book a consultation <ArrowRight className="ml-2 inline" size={16} /></a><a href="#services" className="rounded-md border border-white/30 px-6 py-3.5 font-semibold text-white hover:border-[#19B6C9]">Explore services</a></div><div className="mt-10 grid gap-3 text-sm text-slate-300 sm:grid-cols-2"><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Structured advice</span><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Transparent next steps</span><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Built for individuals</span><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Built for businesses</span></div></div><div className="relative"><div className="rounded-2xl border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur"><div className="rounded-xl bg-[#F8FAFC] p-6 text-[#0B1F3A]"><div className="flex items-center justify-between border-b border-slate-200 pb-5"><div><p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Financial outlook</p><p className="mt-2 text-3xl font-semibold">A clearer view</p></div><div className="rounded-lg bg-[#19B6C9]/10 p-3 text-[#19B6C9]"><BarChart3 size={26} /></div></div><div className="mt-8 flex h-40 items-end gap-3">{[35, 50, 42, 64, 58, 78, 90].map((height, index) => <div key={index} className="flex-1 rounded-t bg-gradient-to-t from-[#0B1F3A] to-[#19B6C9]" style={{ height: `${height}%` }} />)}</div><div className="mt-6 flex items-center justify-between text-xs text-slate-500"><span>Plan</span><span>Review</span><span>Grow with intention</span></div></div></div><p className="mt-4 text-center text-xs text-slate-400">Illustration placeholder — replace with your approved artwork.</p></div></div></section><section className="border-b border-slate-200 bg-white"><div className="container grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">{[['12+', 'Years of experience'], ['850+', 'Clients supported'], ['32', 'Services ready'], ['98%', 'Client satisfaction']].map(([number, label]) => <div key={label} className="border-l-2 border-[#C79A3B] pl-5"><p className="text-3xl font-semibold text-[#0B1F3A]">{number}</p><p className="mt-1 text-sm text-slate-500">{label}</p></div>)}</div></section><section id="services" className="bg-[#F8FAFC] py-24"><div className="container"><div className="max-w-2xl"><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">What we can help with</p><h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#0B1F3A] sm:text-4xl">Services organized around real decisions.</h2><p className="mt-4 leading-7 text-slate-600">Explore a category to see the active service pages. The short content is intentionally easy to replace with your own approved copy.</p></div><div className="mt-12 grid gap-5 lg:grid-cols-3">{CATEGORIES.map((category, index) => { const Icon = category.icon; const isOpen = expanded === index; return <div key={category.slug} className={`rounded-xl border bg-white p-6 transition ${isOpen ? 'border-[#19B6C9] shadow-lg' : 'border-slate-200 shadow-sm hover:-translate-y-1 hover:border-[#19B6C9]'}`}><div className="flex items-start justify-between"><span className="rounded-lg bg-[#0B1F3A] p-3 text-[#C79A3B]"><Icon size={22} /></span><button onClick={() => setExpanded(isOpen ? null : index)} className="rounded-full border border-slate-200 p-2 text-slate-500" aria-label={`Expand ${category.name}`}><ChevronDown className={isOpen ? 'rotate-180 transition' : 'transition'} size={18} /></button></div><h3 className="mt-6 text-xl font-semibold text-[#0B1F3A]">{category.name}</h3><p className="mt-3 min-h-14 text-sm leading-6 text-slate-600">{category.description}</p>{isOpen && <div className="mt-5 border-t border-slate-200 pt-4">{category.services.map((service) => <a key={service} href={`/services/${category.slug}/${slugify(service)}`} className="group flex items-center justify-between border-b border-slate-100 py-3 text-sm text-slate-700 last:border-0 hover:text-[#19B6C9]"><span>{service}</span><ArrowRight size={15} className="opacity-0 transition group-hover:opacity-100" /></a>)}<a href={`/services/${category.slug}`} className="mt-4 inline-flex items-center text-sm font-semibold text-[#0B1F3A]">View category <ArrowRight className="ml-2" size={15} /></a></div>}</div>})}</div></div></section><section id="approach" className="bg-white py-24"><div className="container grid gap-14 lg:grid-cols-[.85fr_1.15fr]"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Our approach</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A] sm:text-4xl">Practical structure before complex answers.</h2><p className="mt-5 leading-7 text-slate-600">Every engagement starts with context. We clarify the objective, review the relevant information, outline options, and agree the next useful step.</p></div><div className="grid gap-4 sm:grid-cols-2">{[['01', 'Listen first', 'Understand the people, business, and decision behind the request.'], ['02', 'Assess clearly', 'Turn available information into an understandable view of the situation.'], ['03', 'Plan deliberately', 'Set out practical choices without promising guaranteed outcomes.'], ['04', 'Support progress', 'Review and refine as circumstances change over time.']].map(([number, title, text]) => <div key={number} className="rounded-xl border border-slate-200 p-6"><span className="text-sm font-semibold text-[#C79A3B]">{number}</span><h3 className="mt-5 text-lg font-semibold text-[#0B1F3A]">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{text}</p></div>)}</div></div></section><section className="bg-[#F8FAFC] py-24"><div className="container"><div className="max-w-2xl"><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Client perspective</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A] sm:text-4xl">Clear communication is part of good advice.</h2></div><div className="mt-10 grid gap-5 md:grid-cols-3">{[['Asha R.', 'Business owner', 'The process gave me a clear list of decisions instead of another confusing report.'], ['Daniel M.', 'Professional', 'The conversations were practical, measured, and easy to act on.'], ['Priya S.', 'Founder', 'I appreciated having the next step explained without pressure.']].map(([name, role, quote]) => <figure key={name} className="rounded-xl border border-slate-200 bg-white p-6"><div className="flex gap-1 text-[#C79A3B]">★★★★★</div><blockquote className="mt-4 text-sm leading-7 text-slate-600">“{quote}”</blockquote><figcaption className="mt-5 text-sm font-semibold text-[#0B1F3A]">{name}<span className="ml-2 font-normal text-slate-500">{role}</span></figcaption></figure>)}</div></div></section><section className="bg-white py-24"><div className="container grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Common questions</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A] sm:text-4xl">A straightforward place to begin.</h2></div><div className="divide-y divide-slate-200 rounded-xl border border-slate-200">{[['How do I get started?', 'Choose a service or contact us directly. We will use the first conversation to understand your context and outline the next useful step.'], ['Which services do you provide?', 'We support personal finance, accounting, tax, audit, investments, lending, and business advisory needs. Active services are listed in the service directory.'], ['Do you work with businesses?', 'Yes. The business advisory, accounting, tax, audit, and lending sections are designed for business requirements.'], ['Will I receive guaranteed investment returns?', 'No. Investment discussions are educational and advisory in nature. Any decision should reflect your objectives, time horizon, and risk profile.']].map(([question, answer]) => <details key={question} className="group p-5"><summary className="cursor-pointer list-none pr-8 font-semibold text-[#0B1F3A]">{question}<ChevronDown className="float-right transition group-open:rotate-180" size={18} /></summary><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">{answer}</p></details>)}</div></div></section><section className="bg-[#0B1F3A] py-20 text-white"><div className="container flex flex-col items-start justify-between gap-7 rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12 lg:flex-row lg:items-center"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#C79A3B]">Ready when you are</p><h2 className="mt-3 text-3xl font-semibold">Bring your next financial question into focus.</h2><p className="mt-3 max-w-xl text-slate-300">Start with a direct conversation or explore the service areas above.</p></div><div className="flex flex-wrap gap-3"><a href="#contact" className="rounded-md bg-[#C79A3B] px-5 py-3 font-semibold text-[#0B1F3A] hover:bg-[#19B6C9]">Book consultation</a><a href="#services" className="rounded-md border border-white/30 px-5 py-3 font-semibold text-white hover:border-[#19B6C9]">Browse services</a></div></div></section><section id="contact" className="bg-white py-20"><div className="container flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Start a conversation</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A]">Have a financial question to work through?</h2><p className="mt-3 max-w-xl text-slate-600">Choose the contact method that suits you. These destinations are placeholders and ready for your details.</p></div><ContactButtons /></div></section></main><Footer /></>
+  return <><Header /><main><section className="relative overflow-hidden bg-[#0B1F3A] text-white"><div className="absolute -right-20 -top-24 h-80 w-80 rounded-full border border-[#19B6C9]/20" /><div className="container grid min-h-[570px] items-center gap-14 py-20 lg:grid-cols-[1.05fr_.95fr]"><div><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#C79A3B]/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#C79A3B]"><span className="h-2 w-2 rounded-full bg-[#19B6C9]" /> Financial clarity, made practical</div><h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">Professional guidance for your next financial decision.</h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">A clear, considered approach to personal finance, business advisory, accounting, tax, audit, investment, and lending support.</p><div className="mt-9 flex flex-wrap gap-4"><a href="#contact" className="rounded-md bg-[#C79A3B] px-6 py-3.5 font-semibold text-[#0B1F3A] hover:bg-[#19B6C9]">Book a consultation <ArrowRight className="ml-2 inline" size={16} /></a><a href="#services" className="rounded-md border border-white/30 px-6 py-3.5 font-semibold text-white hover:border-[#19B6C9]">Explore services</a></div><div className="mt-10 grid gap-3 text-sm text-slate-300 sm:grid-cols-2"><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Structured advice</span><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Transparent next steps</span><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Built for individuals</span><span><Check className="mr-2 inline text-[#19B6C9]" size={16} /> Built for businesses</span></div></div><div className="relative"><div className="rounded-2xl border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur"><div className="rounded-xl bg-[#F8FAFC] p-6 text-[#0B1F3A]"><div className="flex items-center justify-between border-b border-slate-200 pb-5"><div><p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Financial outlook</p><p className="mt-2 text-3xl font-semibold">A clearer view</p></div><div className="rounded-lg bg-[#19B6C9]/10 p-3 text-[#19B6C9]"><BarChart3 size={26} /></div></div><div className="mt-8 flex h-40 items-end gap-3">{[35, 50, 42, 64, 58, 78, 90].map((height, index) => <div key={index} className="flex-1 rounded-t bg-gradient-to-t from-[#0B1F3A] to-[#19B6C9]" style={{ height: `${height}%` }} />)}</div><div className="mt-6 flex items-center justify-between text-xs text-slate-500"><span>Plan</span><span>Review</span><span>Grow with intention</span></div></div></div><p className="mt-4 text-center text-xs text-slate-400">Illustration placeholder — replace with your approved artwork.</p></div></div></section><section className="border-b border-slate-200 bg-white"><div className="container grid gap-6 py-8 sm:grid-cols-2 lg:grid-cols-4">{[['12+', 'Years of experience'], ['850+', 'Clients supported'], ['32', 'Services ready'], ['98%', 'Client satisfaction']].map(([number, label]) => <div key={label} className="border-l-2 border-[#C79A3B] pl-5"><p className="text-3xl font-semibold text-[#0B1F3A]">{number}</p><p className="mt-1 text-sm text-slate-500">{label}</p></div>)}</div></section><section id="services" className="bg-[#F8FAFC] py-24"><div className="container"><div className="max-w-2xl"><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">What we can help with</p><h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#0B1F3A] sm:text-4xl">Services organized around real decisions.</h2><p className="mt-4 leading-7 text-slate-600">Explore a category to see the active service pages. The short content is intentionally easy to replace with your own approved copy.</p></div><div className="mt-12 grid gap-5 lg:grid-cols-3">{CATEGORIES.map((category, index) => { const Icon = category.icon; const isOpen = expanded === index; return <div key={category.slug} className={`rounded-xl border bg-white p-6 transition ${isOpen ? 'border-[#19B6C9] shadow-lg' : 'border-slate-200 shadow-sm hover:-translate-y-1 hover:border-[#19B6C9]'}`}><div className="flex items-start justify-between"><span className="rounded-lg bg-[#0B1F3A] p-3 text-[#C79A3B]"><Icon size={22} /></span><button onClick={() => setExpanded(isOpen ? null : index)} className="rounded-full border border-slate-200 p-2 text-slate-500" aria-label={`Expand ${category.name}`}><ChevronDown className={isOpen ? 'rotate-180 transition' : 'transition'} size={18} /></button></div><h3 className="mt-6 text-xl font-semibold text-[#0B1F3A]">{category.name}</h3><p className="mt-3 min-h-14 text-sm leading-6 text-slate-600">{category.description}</p>{isOpen && <div className="mt-5 border-t border-slate-200 pt-4">{category.services.map((service) => <a key={service} href={`/services/${category.slug}/${slugify(service)}`} className="group flex items-center justify-between border-b border-slate-100 py-3 text-sm text-slate-700 last:border-0 hover:text-[#19B6C9]"><span>{service}</span><ArrowRight size={15} className="opacity-0 transition group-hover:opacity-100" /></a>)}<a href={`/services/${category.slug}`} className="mt-4 inline-flex items-center text-sm font-semibold text-[#0B1F3A]">View category <ArrowRight className="ml-2" size={15} /></a></div>}</div>})}</div></div></section><section id="approach" className="bg-white py-24"><div className="container grid gap-14 lg:grid-cols-[.85fr_1.15fr]"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Our approach</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A] sm:text-4xl">Practical structure before complex answers.</h2><p className="mt-5 leading-7 text-slate-600">Every engagement starts with context. We clarify the objective, review the relevant information, outline options, and agree the next useful step.</p></div><div className="grid gap-4 sm:grid-cols-2">{[['01', 'Listen first', 'Understand the people, business, and decision behind the request.'], ['02', 'Assess clearly', 'Turn available information into an understandable view of the situation.'], ['03', 'Plan deliberately', 'Set out practical choices without promising guaranteed outcomes.'], ['04', 'Support progress', 'Review and refine as circumstances change over time.']].map(([number, title, text]) => <div key={number} className="rounded-xl border border-slate-200 p-6"><span className="text-sm font-semibold text-[#C79A3B]">{number}</span><h3 className="mt-5 text-lg font-semibold text-[#0B1F3A]">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{text}</p></div>)}</div></div></section><section className="bg-[#F8FAFC] py-24"><div className="container"><div className="max-w-2xl"><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Client perspective</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A] sm:text-4xl">Clear communication is part of good advice.</h2></div><div className="mt-10 grid gap-5 md:grid-cols-3">{[['Asha R.', 'Business owner', 'The process gave me a clear list of decisions instead of another confusing report.'], ['Daniel M.', 'Professional', 'The conversations were practical, measured, and easy to act on.'], ['Priya S.', 'Founder', 'I appreciated having the next step explained without pressure.']].map(([name, role, quote]) => <figure key={name} className="rounded-xl border border-slate-200 bg-white p-6"><div className="flex gap-1 text-[#C79A3B]">★★★★★</div><blockquote className="mt-4 text-sm leading-7 text-slate-600">“{quote}”</blockquote><figcaption className="mt-5 text-sm font-semibold text-[#0B1F3A]">{name}<span className="ml-2 font-normal text-slate-500">{role}</span></figcaption></figure>)}</div></div></section><section className="bg-white py-24"><div className="container grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Common questions</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A] sm:text-4xl">A straightforward place to begin.</h2></div><div className="divide-y divide-slate-200 rounded-xl border border-slate-200">{[['How do I get started?', 'Choose a service or contact us directly. We will use the first conversation to understand your context and outline the next useful step.'], ['Which services do you provide?', 'We support personal finance, accounting, tax, audit, investments, lending, and business advisory needs. Active services are listed in the service directory.'], ['Do you work with businesses?', 'Yes. The business advisory, accounting, tax, audit, and lending sections are designed for business requirements.'], ['Will I receive guaranteed investment returns?', 'No. Investment discussions are educational and advisory in nature. Any decision should reflect your objectives, time horizon, and risk profile.']].map(([question, answer]) => <details key={question} className="group p-5"><summary className="cursor-pointer list-none pr-8 font-semibold text-[#0B1F3A]">{question}<ChevronDown className="float-right transition group-open:rotate-180" size={18} /></summary><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">{answer}</p></details>)}</div></div></section><section className="bg-[#0B1F3A] py-20 text-white"><div className="container flex flex-col items-start justify-between gap-7 rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12 lg:flex-row lg:items-center"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#C79A3B]">Ready when you are</p><h2 className="mt-3 text-3xl font-semibold">Bring your next financial question into focus.</h2><p className="mt-3 max-w-xl text-slate-300">Start with a direct conversation or explore the service areas above.</p></div><div className="flex flex-wrap gap-3"><a href="#contact" className="rounded-md bg-[#C79A3B] px-5 py-3 font-semibold text-[#0B1F3A] hover:bg-[#19B6C9]">Book consultation</a><a href="#services" className="rounded-md border border-white/30 px-5 py-3 font-semibold text-white hover:border-[#19B6C9]">Browse services</a></div></div></section><section id="contact" className="bg-white py-20"><div className="container grid gap-10 lg:grid-cols-[1fr_420px] lg:items-center"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#19B6C9]">Start a conversation</p><h2 className="mt-3 text-3xl font-semibold text-[#0B1F3A]">Have a financial question to work through?</h2><p className="mt-3 max-w-xl text-slate-600">Choose your preferred contact method or send us your details directly through the consultation form.</p><div className="mt-8"><ContactButtons /></div></div><ConsultationForm serviceName="General Consultation" /></div></section></main><Footer /></>
 }
 
-function ConsultationForm({ serviceName }) {
-  const [submitted, setSubmitted] = useState(false)
-  return <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
-    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#19B6C9]">Consultation request</p>
-    <h2 className="mt-2 text-2xl font-semibold text-[#0B1F3A]">Tell us what you need</h2>
-    <p className="mt-3 text-sm leading-6 text-slate-600">This form is ready for your future lead workflow. For now, submissions display a work-in-progress message.</p>
-    {submitted ? <div className="mt-6 rounded-lg border border-[#C79A3B]/40 bg-[#C79A3B]/10 p-5 text-sm leading-6 text-[#0B1F3A]"><strong>Work in progress</strong><br />Lead submission will be available in a future update.</div> : <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true) }} className="mt-6 grid gap-4 sm:grid-cols-2"><label className="text-sm font-medium text-slate-700">Full name<input required name="fullName" placeholder="Your name" className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9]" /></label><label className="text-sm font-medium text-slate-700">Phone number<input required name="phone" placeholder="Your phone number" className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9]" /></label><label className="text-sm font-medium text-slate-700">City<input name="city" placeholder="Your city" className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9]" /></label><label className="text-sm font-medium text-slate-700">Service needed<input name="service" defaultValue={serviceName} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9]" /></label><button type="submit" className="rounded-md bg-[#C79A3B] px-5 py-3 font-semibold text-[#0B1F3A] hover:bg-[#19B6C9] sm:col-span-2">Submit consultation request <ArrowRight className="ml-2 inline" size={16} /></button></form>}
-    <div className="mt-6 border-t border-slate-200 pt-5"><p className="mb-3 text-sm font-medium text-slate-700">Prefer to contact us directly?</p><ContactButtons /></div>
-  </div>
+function ConsultationForm({ serviceName = 'General Consultation' }) {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    city: '',
+    service: serviceName || 'General Consultation',
+  })
+
+  const [status, setStatus] = useState('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (serviceName) {
+      setFormData((prev) => ({ ...prev, service: serviceName }))
+    }
+  }, [serviceName])
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (status === 'submitting') return
+
+    setStatus('submitting')
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to submit form. Please try again.')
+      }
+
+      setStatus('success')
+    } catch (err) {
+      console.error('Submission error:', err)
+      setStatus('error')
+      setErrorMessage(err.message || 'Something went wrong. Please try again later.')
+    }
+  }
+
+  const handleReset = () => {
+    setStatus('idle')
+    setErrorMessage('')
+    setFormData({
+      fullName: '',
+      phone: '',
+      email: '',
+      city: '',
+      service: serviceName || 'General Consultation',
+    })
+  }
+
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm">
+      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#19B6C9]">Consultation request</p>
+      <h2 className="mt-2 text-2xl font-semibold text-[#0B1F3A]">Tell us what you need</h2>
+      <p className="mt-3 text-sm leading-6 text-slate-600">
+        Fill out the form below to request a consultation with our team.
+      </p>
+
+      {status === 'success' ? (
+        <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-slate-800">
+          <div className="flex items-center gap-3 text-emerald-600 font-semibold text-lg">
+            <CheckCircle2 size={24} />
+            Request Submitted!
+          </div>
+          <p className="mt-3 text-sm leading-6 text-slate-700">
+            Thank you for reaching out to finanCseek. We have received your details and will get in touch with you shortly.
+          </p>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="mt-5 rounded-md bg-[#0B1F3A] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#19B6C9]"
+          >
+            Submit another request
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="mt-6 grid gap-4 sm:grid-cols-2">
+          {status === 'error' && (
+            <div className="sm:col-span-2 rounded-md border border-rose-200 bg-rose-50 p-4 text-xs leading-5 text-rose-700 flex items-start gap-2">
+              <AlertCircle size={18} className="shrink-0 mt-0.5" />
+              <div>
+                <strong>Submission Error:</strong> {errorMessage}
+              </div>
+            </div>
+          )}
+
+          <label className="text-sm font-medium text-slate-700">
+            Full name
+            <input
+              required
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
+              placeholder="Your name"
+              className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9] disabled:bg-slate-100 disabled:opacity-70 text-slate-800"
+            />
+          </label>
+
+          <label className="text-sm font-medium text-slate-700">
+            Phone number
+            <input
+              required
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
+              placeholder="Your phone number"
+              className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9] disabled:bg-slate-100 disabled:opacity-70 text-slate-800"
+            />
+          </label>
+
+          <label className="text-sm font-medium text-slate-700">
+            Email
+            <input
+              required
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
+              placeholder="Your email address"
+              className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9] disabled:bg-slate-100 disabled:opacity-70 text-slate-800"
+            />
+          </label>
+
+          <label className="text-sm font-medium text-slate-700">
+            City
+            <input
+              required
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
+              placeholder="Your city"
+              className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9] disabled:bg-slate-100 disabled:opacity-70 text-slate-800"
+            />
+          </label>
+
+          <label className="text-sm font-medium text-slate-700 sm:col-span-2">
+            Service needed
+            <input
+              required
+              type="text"
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
+              placeholder="Selected service"
+              className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3 outline-none focus:border-[#19B6C9] disabled:bg-slate-100 disabled:opacity-70 text-slate-800"
+            />
+          </label>
+
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            className="rounded-md bg-[#C79A3B] px-5 py-3 font-semibold text-[#0B1F3A] hover:bg-[#19B6C9] disabled:opacity-50 disabled:cursor-not-allowed sm:col-span-2 inline-flex items-center justify-center gap-2"
+          >
+            {status === 'submitting' ? (
+              <>
+                <Loader2 className="animate-spin" size={18} /> Submitting request...
+              </>
+            ) : (
+              <>
+                Submit consultation request <ArrowRight size={16} />
+              </>
+            )}
+          </button>
+        </form>
+      )}
+
+      <div className="mt-6 border-t border-slate-200 pt-5">
+        <p className="mb-3 text-sm font-medium text-slate-700">Prefer to contact us directly?</p>
+        <ContactButtons />
+      </div>
+    </div>
+  )
 }
+
 
 const SERVICE_CONTENT = {
   'financial-planning': 'Financial planning brings income, priorities, protection, and long-term goals into one practical roadmap. Use this page to add your preferred planning scope and client outcomes.',
