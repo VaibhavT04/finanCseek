@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation'
 import { ArrowRight, BarChart3, BookOpen, BriefcaseBusiness, Check, ChevronDown, Clock3, FileText, Landmark, Menu, MessageCircle, Phone, Mail, ShieldCheck, Sparkles, Target, TrendingUp, X, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
 
 const CONTACTS = {
-  whatsapp: 'https://wa.me/0000000000',
-  email: 'mailto:replace-with-your-email@example.com',
-  phone: 'tel:+0000000000',
+  whatsapp: 'https://wa.me/918452960702',
+  email: 'mailto:financseek@gmail.com',
+  phone: 'tel:918452960702',
 }
 
 const BRAND = {
